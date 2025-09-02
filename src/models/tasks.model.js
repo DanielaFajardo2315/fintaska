@@ -1,10 +1,6 @@
 import mongoose from "mongoose";
 
 const taskSchema = new mongoose.Schema({
-//Nombre de usuario
-userId: { 
-    type: mongoose.Schema.Types.ObjectId, ref: "Usuario", 
-    required: true },
 //titulo de la actividad o tarea a realizar
  title: 
  { type: String, 
