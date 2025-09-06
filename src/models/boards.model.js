@@ -21,4 +21,4 @@ const boardSchema = new mongoose.Schema({
     }
 });
 
-export const boardModel = mongoose.model("boards", boardSchema);
+export const boardsModel = mongoose.model("boards", boardSchema);
