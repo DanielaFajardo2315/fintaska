@@ -1,21 +1,21 @@
 //1. Importar dependencias y modulos necesarios
 import { request, response } from "express";
-import { boardsModel } from "../../models/boards.model.js";
-//import { boardsModel } from "../models/boards.model.js";
+import { tasksModel } from "../../models/tasks.model.js";
+
 
 
 //. Metodo CREAR un producto - POST
-export const postBoard = async (request, response) => {
+export const postTasks = async (request, response) => {
     try {
-        await boardsModel.create(request.body);
+        await tasksModel.create(request.body);
 
         return response.status(201).json({
-            "mensaje": "Tablero creado exitosamente",
+            "mensaje": "Tarea creada exitosamente",
         });
 
     } catch (error) {
         return response.status(400).json({
-            "mensaje": "ocurrio un error al crear el Tablero",
+            "mensaje": "ocurrio un error al crear esta Tarea",
             "error": error.message || error
 
         });
@@ -23,17 +23,17 @@ export const postBoard = async (request, response) => {
 }
 
 //2. Metodo para MOSTRAR todos los tableros - GET
-export const getAllBoards = async (request, response) => {
+export const getAllTasks = async (request, response) => {
     try {
-        const allBoards = await boardsModel.find();
+        const allTasks = await tasksModel.find();
         return response.status(200).json({
-            "mensaje": "Tablero mostrado exitosamente",
-            "data": allBoards
+            "mensaje": "Tarea mostrada exitosamente",
+            "data": allTasks
         });
 
     } catch (error) {
         return response.status(500).json({
-            "mensaje": "Ocurrio un error al mostrar el tablero",
+            "mensaje": "Ocurrio un error al mostrar esta Tarea",
             "error": error.message || error
         });
 
@@ -42,20 +42,20 @@ export const getAllBoards = async (request, response) => {
 
 
 //3. Metodo Actualizar Tablero - PUT
-export const putBoardById = async (request, response) => {
+export const putTasksById = async (request, response) => {
 
     try {
         const idForUpdate = request.params.id;
         const dataForUpdate = request.body;
 
-        await boardsModel.findByIdAndUpdate(idForUpdate, dataForUpdate);
+        await tasksModel.findByIdAndUpdate(idForUpdate, dataForUpdate);
         return response.status(200).json({
-            "mensaje": "Tablero Actualizado exitosamente"
+            "mensaje": "Tarea Actualizada exitosamente"
         });
 
     } catch (error) {
         return response.status(500).json({
-           "mensaje":"Ocurrio un error al actualizar el tablero",
+           "mensaje":"Ocurrio un error al actualizar la tarea",
             "error": error.message || error
         });
 
@@ -64,19 +64,19 @@ export const putBoardById = async (request, response) => {
 
 
 //4. Método para ELIMINAR -> DELETE
-export const deleteBoardById = async (request, response) => {
+export const deleteTasksById = async (request, response) => {
    
     try {
         const idForDelete= request.params.id;
-        await boardsModel.findByIdAndDelete(idForDelete);
+        await tasksModel.findByIdAndDelete(idForDelete);
 
         return response.status(200).json({
-            "mensaje":"Tablero eliminado exitosamente",
+            "mensaje":"Tarea eliminada exitosamente",
         })
         
     } catch (error) {
         return response.status(500).json({
-            "mensaje":"Ocurrio un error al eliminar tablero",
+            "mensaje":"Ocurrio un error al eliminar la Tarea",
             "error": error.message || error
         });
         
