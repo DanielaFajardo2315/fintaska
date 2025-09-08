@@ -7,8 +7,9 @@ const financeSchema = new mongoose.Schema({
     },
     amount: { 
         type: Number, 
-        required: true 
-    }, //monto de dinero
+        required: true,
+        min: 0.01
+    }, //monto de dinero debe ser mayor a 0
     paymentMethod:{
         type: String,
         enum: ["efectivo", "cuenta ahorros", "cuenta nomina", "credito"]
@@ -24,7 +25,18 @@ const financeSchema = new mongoose.Schema({
     date: { 
         type: Date, 
         default: Date.now 
-    }
+    },
+    status : {
+        type: String, enum: ['pendiente', 'completado'], 
+        default: 'completado'
+    },
+    user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+    index: true
+  },
+
 });
 
 export const financeModel = mongoose.model("finances", financeSchema);
