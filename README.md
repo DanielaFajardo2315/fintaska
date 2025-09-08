@@ -34,6 +34,7 @@ Las dependencias y herramientas necesarias para el funcionamiento de este proyec
 - Express
 - Mongoose
 - Nodemon
+- Bcryptjs
 ## Variables de entorno
 
 Este proyecto cuenta con las siguientes variables de entorno:
