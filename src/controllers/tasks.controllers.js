@@ -1,5 +1,4 @@
 //1. Importar dependencias y modulos necesarios
-import { request, response } from "express";
 import { tasksModel } from "../models/tasks.model.js";
 
 

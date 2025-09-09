@@ -1,5 +1,4 @@
 //1. Importar dependencias y modulos necesarios
-import { request, response } from "express";
 import { boardsModel } from "../models/boards.model.js";
 
 
@@ -37,48 +36,73 @@ export const getAllBoards = async (request, response) => {
         });
 
     }
+
 }
 
-
-//3. Metodo Actualizar Tablero - PUT
-export const putBoardById = async (request, response) => {
-
+export const getBoardByTag = async (request, response) => {
     try {
-        const idForUpdate = request.params.id;
-        const dataForUpdate = request.body;
+        const tagForBoard = request.params.tag;
+        const boardTag = await boardsModel.find({ tag: { $in: [tagForBoard] } });
+           if (boardTag.length === 0) {
+            return response.status(404).json({
+                "mensaje": "No se encontraron tableros con esa etiqueta"
+            });
+        }
 
-        await boardsModel.findByIdAndUpdate(idForUpdate, dataForUpdate);
         return response.status(200).json({
-            "mensaje": "Tablero Actualizado exitosamente"
+            "mensaje": "Tableros mostrados exitosamente",
+            "data": boardTag
         });
 
     } catch (error) {
         return response.status(500).json({
-           "mensaje":"Ocurrio un error al actualizar el tablero",
+            "mensaje": "Ocurrio un error al mostrar el tablero",
             "error": error.message || error
         });
 
     }
+
 }
 
+    //3. Metodo Actualizar Tablero - PUT
+    export const putBoardById = async (request, response) => {
 
-//4. Método para ELIMINAR -> DELETE
-export const deleteBoardById = async (request, response) => {
-   
-    try {
-        const idForDelete= request.params.id;
-        await boardsModel.findByIdAndDelete(idForDelete);
+        try {
+            const idForUpdate = request.params.id;
+            const dataForUpdate = request.body;
 
-        return response.status(200).json({
-            "mensaje":"Tablero eliminado exitosamente",
-        })
-        
-    } catch (error) {
-        return response.status(500).json({
-            "mensaje":"Ocurrio un error al eliminar tablero",
-            "error": error.message || error
-        });
-        
-        
+            await boardsModel.findByIdAndUpdate(idForUpdate, dataForUpdate);
+            return response.status(200).json({
+                "mensaje": "Tablero Actualizado exitosamente"
+            });
+
+        } catch (error) {
+            return response.status(500).json({
+                "mensaje": "Ocurrio un error al actualizar el tablero",
+                "error": error.message || error
+            });
+
+        }
     }
-}
+
+
+    //4. Método para ELIMINAR -> DELETE
+    export const deleteBoardById = async (request, response) => {
+
+        try {
+            const idForDelete = request.params.id;
+            await boardsModel.findByIdAndDelete(idForDelete);
+
+            return response.status(200).json({
+                "mensaje": "Tablero eliminado exitosamente",
+            })
+
+        } catch (error) {
+            return response.status(500).json({
+                "mensaje": "Ocurrio un error al eliminar tablero",
+                "error": error.message || error
+            });
+
+
+        }
+    }
