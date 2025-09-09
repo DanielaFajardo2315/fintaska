@@ -3,7 +3,28 @@ import { financeModel } from "../models/finances.model.js";
 import { tasksModel } from "../models/tasks.model.js";
 import { userModel } from "../models/users.model.js";
 
-//CREAR MOVIMIENTO - POST 
+// CREAR Movimiento Financiero - POST
+export const createFinanceEntry = async (response, request) =>{
+    try {
+        const { type, amount, paymentMethod, category, description, date, status, user } = request.body;
+
+        const financialMove = await financeModel.create(
+            type, amount, paymentMethod, category, description, date, status, user
+        );
+        
+        return response.status(201).json({
+            message: "Movimiento en Finanzas Creado Exitosamente",
+            financialMove
+        });    
+    } catch (error) {
+        return response.status(400).json({
+            "mensaje": "Ocurrio un error al CREAR entrada en finanzas",
+            "error" : error.message || error
+        })     
+    }
+}
+
+/* //CREAR MOVIMIENTO - POST -AVANZADO + RECORDATORIO new y save
 export const createFinanceEntry = async (request, response) => {
     try {
         const { userId } = request.params;
@@ -34,8 +55,29 @@ export const createFinanceEntry = async (request, response) => {
         })
     }    
 }
+ */
 
-// LISTAR MOVIMIENTOS FINANCIEROS CON FILTROS - GET
+//------------------------
+//MOSTRAR TODOS los ingresos financieros Usuario - GET
+export const getFinancialMoveByUser = async (request, response) =>{
+    try {
+        const { userId } = request.params;
+
+        const financialMove = await financeModel.find({ usuario: userId }).sort({ fecha: -1 });
+
+        return response.status(200).json({
+            message: ` ${financialMove.length} ingresos en finanzas encontrados `,
+            financialMove
+        });
+    } catch (error) {
+        return response.status(400).json({
+            "mensaje": "Ocurrio un error al MOSTRAR TODAS las entradas en finanzas",
+            "error" : error.message || error
+        })
+    }
+}
+
+/* // LISTAR MOVIMIENTOS FINANCIEROS CON FILTROS -AVANZADO- GET
 
 export const getFinancialMoveByUser =async(request,response) => {
     try {
@@ -69,33 +111,51 @@ export const getFinancialMoveByUser =async(request,response) => {
         })        
     }
 
-}
+} */
 
-// ACTUALIZAR MOVIMIENTO 
+//---------------------------
 
-const updateFinanceMove = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const datosActualizar = { ...req.body, fechaActualizacion: new Date() };
-
-    const movimientoActualizado = await financeModel.findByIdAndUpdate(
-      id,
-      datosActualizar,
-      { new: true }
-    );
-
-    if (!movimientoActualizado) {
-      return res.status(404).json({ error: "Movimiento no encontrado" });
+// ACTUALIZAR  un movimiento por id - PUT
+export const updateFinancialMove = async (request, response) => {
+    try {
+         
+    } catch (error) {
+        return response.status(400).json({
+            "mensaje": "Ocurrio un error al ACTUALIZAR la entrada en finanzas",
+            "error" : error.message || error
+        })
     }
 
-    res.json({
-      message: "Movimiento actualizado",
-      movimiento: movimientoActualizado,
-    });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
+}
+
+
+/* // ACTUALIZAR MOVIMIENTO -PUT - AVANZADO con fecha actualizacion
+
+export const updateFinancialMove = async (req, res) => {
+  try {
+        const { id } = req.params;
+        const dataForUpdate = { ...req.body, dateUpdate: new Date() };
+
+        const financialMoveUpdated = await financeModel.findByIdAndUpdate(
+        id,
+        dataForUpdate,
+        { new: true }
+        );
+
+        if (!financialMoveUpdated) {
+        return res.status(404).json({ error: "Movimiento no encontrado" });
+        }
+
+        return res.status(200).json({
+        message: "Movimiento en finanzas actualizado",
+        movimiento: financialMoveUpdated,
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+} */
+
+//----------------------------------------------
 
 // ELIMINAR MOVIMIENTO
 const deleteMovement = async (req, res) => {
