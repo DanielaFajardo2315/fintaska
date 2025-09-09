@@ -1,7 +1,6 @@
 //1. Importar dependencias y modulos necesarios
 import { request, response } from "express";
-import { boardsModel } from "../../models/boards.model.js";
-//import { boardsModel } from "../models/boards.model.js";
+import { boardsModel } from "../models/boards.model.js";
 
 
 //. Metodo CREAR un producto - POST

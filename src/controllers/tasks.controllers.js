@@ -1,13 +1,22 @@
 //1. Importar dependencias y modulos necesarios
 import { request, response } from "express";
-import { tasksModel } from "../../models/tasks.model.js";
+import { tasksModel } from "../models/tasks.model.js";
 
 
 
 //. Metodo CREAR un producto - POST
 export const postTasks = async (request, response) => {
     try {
-        await tasksModel.create(request.body);
+        const { title, description, estatus, category, priority, creationDate } = request.body;
+        const codedPassword = bcryptjs.hash(password, 10)
+        await tasksModel.create({
+            title,
+            description,
+            estatus,
+            category,
+            priority,
+            creationDate
+        });
 
         return response.status(201).json({
             "mensaje": "Tarea creada exitosamente",
@@ -55,7 +64,7 @@ export const putTasksById = async (request, response) => {
 
     } catch (error) {
         return response.status(500).json({
-           "mensaje":"Ocurrio un error al actualizar la tarea",
+            "mensaje": "Ocurrio un error al actualizar la tarea",
             "error": error.message || error
         });
 
@@ -65,21 +74,21 @@ export const putTasksById = async (request, response) => {
 
 //4. Método para ELIMINAR -> DELETE
 export const deleteTasksById = async (request, response) => {
-   
+
     try {
-        const idForDelete= request.params.id;
+        const idForDelete = request.params.id;
         await tasksModel.findByIdAndDelete(idForDelete);
 
         return response.status(200).json({
-            "mensaje":"Tarea eliminada exitosamente",
+            "mensaje": "Tarea eliminada exitosamente",
         })
-        
+
     } catch (error) {
         return response.status(500).json({
-            "mensaje":"Ocurrio un error al eliminar la Tarea",
+            "mensaje": "Ocurrio un error al eliminar la Tarea",
             "error": error.message || error
         });
-        
-        
+
+
     }
 }

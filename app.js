@@ -1,8 +1,8 @@
 import express from "express";
 import dotenv from "dotenv";
 import { conectMongo } from "./src/config/db.js";
-import { boardRouter } from "./src/config/routers/board.router.js";
-import {tasksRouter} from "./src/config/routers/tasks.router.js";
+import { boardRouter } from "./src/routers/board.router.js";
+import {tasksRouter} from "./src/routers/tasks.router.js";
 
 const app = express();
 dotenv.config();
