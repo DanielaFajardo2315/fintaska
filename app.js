@@ -4,8 +4,8 @@ import { conectMongo } from "./src/config/db.js";
 import { userRouter } from "./src/routes/users.routes.js";
 import { notificationRouter } from "./src/routes/notifications.routes.js";
 import {financeRouter} from "./src/routes/finances.routes.js"; 
-import { boardRouter } from "./src/routers/board.router.js";
-import {tasksRouter} from "./src/routers/tasks.router.js";
+import { boardRouter } from "./src/routes/board.routes.js";
+import {tasksRouter} from "./src/routes/tasks.routes.js";
 
 const app = express();
 dotenv.config();
