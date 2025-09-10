@@ -51,6 +51,11 @@ const userSchema = new mongoose.Schema({
       type: [
         {type: mongoose.Schema.Types.ObjectId, ref: "boards", required: false}
       ]
+    },
+    finances: {
+      type: [
+        {type: mongoose.Schema.Types.ObjectId, ref: "finances", required: false}
+      ]
     }
   }
 });
