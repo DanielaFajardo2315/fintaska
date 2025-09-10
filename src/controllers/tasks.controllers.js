@@ -7,8 +7,7 @@ import { tasksModel } from "../models/tasks.model.js";
 export const postTasks = async (request, response) => {
     try {
         const { title, description, estatus, category, priority, creationDate } = request.body;
-        const codedPassword = bcryptjs.hash(password, 10)
-        await tasksModel.create({
+            await tasksModel.create({
             title,
             description,
             estatus,
