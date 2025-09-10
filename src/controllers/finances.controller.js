@@ -4,16 +4,16 @@ import { tasksModel } from "../models/tasks.model.js";
 import { userModel } from "../models/users.model.js";
 
 // CREAR Movimiento Financiero - POST
-export const createFinanceEntry = async (response, request) =>{
+export const createFinanceEntry = async (request, response) =>{
     try {
         const { type, amount, paymentMethod, category, description, date, status, user } = request.body;
 
-        const financialMove = await financeModel.create(
-            type, amount, paymentMethod, category, description, date, status, user
+        const financialMove = await financeModel.create({
+            type, amount, paymentMethod, category, description, date, status, user}
         );
         
         return response.status(201).json({
-            message: "Movimiento en Finanzas Creado Exitosamente",
+            "message": "Movimiento en Finanzas Creado Exitosamente",
             financialMove
         });    
     } catch (error) {
@@ -118,7 +118,22 @@ export const getFinancialMoveByUser =async(request,response) => {
 // ACTUALIZAR  un movimiento por id - PUT
 export const updateFinancialMove = async (request, response) => {
     try {
-         
+        const { id } = request.params;
+
+        const financialMove = await movementModel.findByIdAndUpdate(
+        id,
+        { ...request.body, fechaActualizacion: new Date() },
+        { new: true }
+        );
+
+        if (!financialMove) {
+        return response.status(404).json({ error: "Movimiento en finanzas no encontrado" });
+        }
+
+        response.json({
+        message: "Movimiento actualizado",
+        financialMove
+        });
     } catch (error) {
         return response.status(400).json({
             "mensaje": "Ocurrio un error al ACTUALIZAR la entrada en finanzas",
@@ -158,16 +173,16 @@ export const updateFinancialMove = async (req, res) => {
 //----------------------------------------------
 
 // ELIMINAR MOVIMIENTO
-const deleteMovement = async (req, res) => {
+export const deleteFinancialMove = async (request, response) => {
   try {
-    const { id } = req.params;
+    const { id } = request.params;
 
-    const movimiento = await movementModel.findById(id);
-    if (!movimiento) {
-      return res.status(404).json({ error: "Movimiento no encontrado" });
+    const financialMove = await financeModel.findById(id);
+    if (!financialMove) {
+      return response.status(404).json({ error: "Movimiento en finanzas no encontrado" });
     }
 
-    await movementModel.findByIdAndDelete(id);
+    await financeModel.findByIdAndDelete(id);
 
     res.json({ message: "Movimiento eliminado" });
   } catch (error) {

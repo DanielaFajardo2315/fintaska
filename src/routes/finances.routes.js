@@ -1,11 +1,11 @@
 import express from "express";
-import { createFinanceEntry, getFinancialMoveByUser, updateFinancialMove } from "../controllers/finances.controller.js";
+import { createFinanceEntry, getFinancialMoveByUser, updateFinancialMove, deleteFinancialMove } from "../controllers/finances.controller.js";
 
 
 export const financeRouter = express.Router();
 
 // Ruta para el POST Crear Movimiento financiero
-financeRouter.post("/:userId", createFinanceEntry);
+financeRouter.post("/", createFinanceEntry);
 
 // Obtener movimientos con filtros
 financeRouter.get("/:userId", getFinancialMoveByUser);
@@ -14,4 +14,4 @@ financeRouter.get("/:userId", getFinancialMoveByUser);
 financeRouter.put("/:id", updateFinancialMove);
 
 // Eliminar movimiento
-financeRouter.delete("/:id", deleteMovement);
+financeRouter.delete("/:id", deleteFinancialMove);
