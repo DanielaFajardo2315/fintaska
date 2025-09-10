@@ -47,13 +47,15 @@ export const getAllUsers = async (request, response) => {
 export const putUserById = async (request, response) => {
     try {
         const idForUpdate = request.params.id;
-        const { fullName, username, email, password, rol } = request.body;
+        const { fullName, username, email, password, rol, settings, planner } = request.body;
 
         const updateData = {
             fullName,
             username,
             email,
-            rol
+            rol,
+            settings,
+            planner
         };
 
         if (password) {
