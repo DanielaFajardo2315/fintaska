@@ -1,5 +1,5 @@
 import express from "express";
-import { postUser, getAllUsers, putUserById, deleteUserById } from "../controllers/users.controller.js";
+import { postUser, getAllUsers, getUserById, putUserById, deleteUserById } from "../controllers/users.controller.js";
 
 export const userRouter = express.Router();
 
@@ -8,6 +8,7 @@ userRouter.post("/", postUser);
 
 // Route GET
 userRouter.get("/", getAllUsers);
+userRouter.get("/:id", getUserById);
 
 // Route PUT
 userRouter.put("/:id", putUserById);

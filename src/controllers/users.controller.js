@@ -43,6 +43,28 @@ export const getAllUsers = async (request, response) => {
     }
 }
 
+// Método GET por id
+export const getUserById = async (request, response) => {
+    try {
+        const idForGet = request.params.id;
+        const user = await userModel.findById(idForGet).populate("planner.board").populate("planner.tasks").populate("planner.notifications").populate("planner.finances");
+        if (!user){
+            return response.status(404).json({
+                "mesage": "User not found"
+            })
+        }
+        return response.status(200).json({
+            "message": "User found",
+            "data": user
+        });
+    } catch (error) {
+        return response.status(500).json({
+            "message": "An error occurred while getting users.",
+            "error": error.message || error
+        })
+    }
+}
+
 // Método PUT
 export const putUserById = async (request, response) => {
     try {
@@ -60,7 +82,7 @@ export const putUserById = async (request, response) => {
 
         if (password) {
             const codedPassword = await bcryptjs.hash(password, 10);
-            
+
             updateData.password = codedPassword;
         }
 
