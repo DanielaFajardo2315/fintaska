@@ -184,9 +184,9 @@ export const deleteFinancialMove = async (request, response) => {
 
     await financeModel.findByIdAndDelete(id);
 
-    res.json({ message: "Movimiento eliminado" });
+    response.json({ message: "Movimiento eliminado" });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    response.status(500).json({ error: error.message });
   }
 };
 
