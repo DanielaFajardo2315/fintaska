@@ -9,6 +9,7 @@ import {tasksRouter} from "./src/routes/tasks.routes.js";
 import cors from "cors";
 import path from "path"; 
 import { fileURLToPath } from "url"; 
+import { loginRouter } from "./src/routes/login.routes.js";
 
 const app = express();
 dotenv.config();
@@ -31,6 +32,7 @@ app.use("/boards", boardRouter);
 app.use ("/tasks", tasksRouter);
 app.use("/images", express.static(path.join(_dirname, "src/uploads/images")));
 app.use("/file", express.static(path.join(_dirname, "src/uploads/files")));
+app.use("/login", loginRouter);
 
 
 app.listen(port, () => {
