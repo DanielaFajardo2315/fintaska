@@ -5,10 +5,21 @@ import { boardsModel } from "../models/boards.model.js";
 //. Metodo CREAR un producto - POST
 export const postBoard = async (request, response) => {
     try {
-        await boardsModel.create(request.body);
+        // Validación de que si exista el archivo enviado
+        if(!request.file){
+            return response.status(400).json({
+                "message": "You need upload an image"
+            });
+        }
+        // Organizo primero el producto que se va a crear
+        const newProduct = {
+            ...request.body,
+            image: `/uploads/images/${request.file.filename}`
+        }
 
+        await productModel.create(newProduct);
         return response.status(201).json({
-            "mensaje": "Tablero creado exitosamente",
+            "message": "Product created correctly"
         });
 
     } catch (error) {
