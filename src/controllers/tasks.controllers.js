@@ -3,12 +3,12 @@ import { tasksModel } from "../models/tasks.model.js";
 
 
 
-//. Metodo CREAR un producto - POST
+//. Metodo CREAR un tablero - POST
 export const postTasks = async (request, response) => {
     try {
         const { title, description, estatus, category, priority, creationDate } = request.body;
+
         await tasksModel.create({
-            await tasksModel.create({
             title,
             description,
             estatus,
