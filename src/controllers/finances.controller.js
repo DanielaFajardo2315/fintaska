@@ -63,7 +63,7 @@ export const getFinancialMoveByUser = async (request, response) =>{
     try {
         const { userId } = request.params;
 
-        const financialMove = await financeModel.find({ usuario: userId }).sort({ fecha: -1 });
+        const financialMove = await financeModel.find({ user: userId }).sort({ fecha: -1 });
 
         return response.status(200).json({
             message: ` ${financialMove.length} ingresos en finanzas encontrados `,
@@ -120,9 +120,9 @@ export const updateFinancialMove = async (request, response) => {
     try {
         const { id } = request.params;
 
-        const financialMove = await movementModel.findByIdAndUpdate(
+        const financialMove = await financeModel.findByIdAndUpdate(
         id,
-        { ...request.body, fechaActualizacion: new Date() },
+        { ...request.body, updateDate: new Date() },
         { new: true }
         );
 
@@ -130,7 +130,7 @@ export const updateFinancialMove = async (request, response) => {
         return response.status(404).json({ error: "Movimiento en finanzas no encontrado" });
         }
 
-        response.json({
+        return response.json({
         message: "Movimiento actualizado",
         financialMove
         });
@@ -184,9 +184,9 @@ export const deleteFinancialMove = async (request, response) => {
 
     await financeModel.findByIdAndDelete(id);
 
-    res.json({ message: "Movimiento eliminado" });
+    response.json({ message: "Movimiento eliminado" });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    response.status(500).json({ error: error.message });
   }
 };
 

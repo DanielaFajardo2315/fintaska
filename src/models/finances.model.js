@@ -32,7 +32,7 @@ const financeSchema = new mongoose.Schema({
     },
     user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'users',
+    ref: 'users', //Collection name en DB
     
     },
 
