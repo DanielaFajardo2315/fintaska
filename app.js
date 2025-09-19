@@ -29,7 +29,8 @@ app.use("/notifications", notificationRouter);
 app.use ("/finances", financeRouter);
 app.use("/boards", boardRouter);
 app.use ("/tasks", tasksRouter);
-app.use("/uploads", express.static(path.join(_dirname, "src/uploads")));
+app.use("/images", express.static(path.join(_dirname, "src/uploads/images")));
+app.use("/file", express.static(path.join(_dirname, "src/uploads/files")));
 
 
 app.listen(port, () => {

@@ -18,18 +18,7 @@ if (!fs.existsSync(UPLOADS_FOLDER)) {
 // 2. Especificar cómo vamos a guardar los archivos
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        //donde vamos a guardar el archivo
-
-        // Crear la ruta directamente a la carpeta de documentos
-        const uploadPath = path.join(_dirname, "../uploads/files");
-        
-        // Crear carpeta si no existe            
-         if (!fs.existsSync(uploadPath)) {
-            fs.mkdirSync(uploadPath, { recursive: true });
-        }        
-      
-
-        cb(null, uploadPath);
+        cb(null, UPLOADS_FOLDER);
     },
     filename: (req, file, cb) => {
         const ext = path.extname(file.originalname); //extensión → .jpg .pdf, etc
