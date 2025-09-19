@@ -14,7 +14,8 @@ export const postBoard = async (request, response) => {
         // Organizo primero el producto que se va a crear
         const newProduct = {
             ...request.body,
-            image: `/uploads/images/${request.file.filename}`
+            urlImage: `/images/${request.file.filename}`
+            
         }
 
         await productModel.create(newProduct);
