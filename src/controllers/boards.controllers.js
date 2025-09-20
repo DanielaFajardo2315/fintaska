@@ -6,25 +6,20 @@ import { boardsModel } from "../models/boards.model.js";
 export const postBoard = async (request, response) => {
     try {
         // Validación de que si exista el archivo enviado
-        if (request.file) {
-            const newImage = {
-                ...request.body,
-                urlImage: `/images/${request.file.filename}`,
-                urlFile: `/files/${request.file.filename}`
-            }
-            await boardsModel.create(newImage);
-            return response.status(201).json({
-                "mensaje": "Nota creada correctamente"
-            });
+        const newBoard = request.body;   // aquí se guarda todo el body tal cual viene
+        const files = request.files;     // aquí se guardan los archivos subidos
 
-        } else {
-            await boardsModel.create(request.body);
-
-            return response.status(201).json({
-                "mensaje": "Nota creado exitosamente",
-            });
+        if (files && files['urlImage']) {
+            newBoard.urlImage = `/images/${files['urlImage'][0].filename}`;
         }
 
+        if (files && files['urlFile']) {
+            newBoard.urlFile = `/files/${files['urlFile'][0].filename}`;
+        }
+
+        await boardsModel.create(newBoard);
+
+        return response.status(201).json({ mensaje: "Nota creada correctamente" });
 
     } catch (error) {
         return response.status(400).json({
