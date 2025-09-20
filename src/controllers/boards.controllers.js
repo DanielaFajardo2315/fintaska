@@ -2,7 +2,7 @@
 import { boardsModel } from "../models/boards.model.js";
 
 
-//. Metodo CREAR un producto - POST
+//. Metodo CREAR un tablero - POST
 export const postBoard = async (request, response) => {
     try {
         // Validación de que si exista el archivo enviado
@@ -10,7 +10,7 @@ export const postBoard = async (request, response) => {
             const newImage = {
                 ...request.body,
                 urlImage: `/images/${request.file.filename}`,
-                urlFile: `/file/${request.file.filename}`
+                urlFile: `/files/${request.file.filename}`
             }
             await boardsModel.create(newImage);
             return response.status(201).json({

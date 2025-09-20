@@ -1,7 +1,6 @@
 import { userModel } from "../models/users.model.js";
 import { generateToken } from "../config/jwt.js";
 import bcryptjs from "bcryptjs";
-import { request, response } from "express";
 
 export const login = async (request, response) => {
     try {
@@ -35,7 +34,7 @@ export const login = async (request, response) => {
         }
 
 
-        if (userFound.role === "admin") {
+        if (userFound.rol === "admin") {
             payload.admin = true;
         } else {
             payload.admin = false;
@@ -43,14 +42,14 @@ export const login = async (request, response) => {
 
         const token = await generateToken(payload);
         console.log("payload: ", payload);
-        console.log("token", token)
+        console.log("token", token);
 
         return response.status(200).json({
             "mensaje": "Inicio de sesión exitoso",
             "token": token
         });
     } catch (error) {
-        return response.status(400).json({
+        return response.status(401).json({
             "mensaje": "Ha ocurrido un error al iniciar sesión",
             "error" : error.message || error
         });

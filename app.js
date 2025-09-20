@@ -6,10 +6,10 @@ import { notificationRouter } from "./src/routes/notifications.routes.js";
 import {financeRouter} from "./src/routes/finances.routes.js"; 
 import { boardRouter } from "./src/routes/boards.routes.js";
 import {tasksRouter} from "./src/routes/tasks.routes.js";
+import { loginRouter } from "./src/routes/login.routes.js";
 import cors from "cors";
 import path from "path"; 
 import { fileURLToPath } from "url"; 
-import { loginRouter } from "./src/routes/login.routes.js";
 
 const app = express();
 dotenv.config();
@@ -27,11 +27,11 @@ app.use(cors());
 app.use(express.json());
 app.use("/users", userRouter);
 app.use("/notifications", notificationRouter);
-app.use ("/finances", financeRouter);
+app.use("/finances", financeRouter);
 app.use("/boards", boardRouter);
-app.use ("/tasks", tasksRouter);
+app.use("/tasks", tasksRouter);
 app.use("/images", express.static(path.join(_dirname, "src/uploads/images")));
-app.use("/file", express.static(path.join(_dirname, "src/uploads/files")));
+app.use("/files", express.static(path.join(_dirname, "src/uploads/files")));
 app.use("/login", loginRouter);
 
 
