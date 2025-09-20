@@ -8,7 +8,7 @@ userRouter.post("/", postUser);
 
 // Route GET
 userRouter.get("/", auth("admin"), getAllUsers);
-userRouter.get("/:id",auth("admin"),  getUserById);
+userRouter.get("/:id",  getUserById);
 
 // Route PUT
 userRouter.put("/:id", putUserById);

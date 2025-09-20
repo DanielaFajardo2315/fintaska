@@ -35,6 +35,8 @@ Las dependencias y herramientas necesarias para el funcionamiento de este proyec
 - Mongoose
 - Nodemon
 - Bcryptjs
+- JsonWebToken
+- Multer
 
 ## Variables de entorno
 
@@ -46,38 +48,26 @@ Este proyecto cuenta con las siguientes variables de entorno:
 
 `BD_URL`
 
+`SECRET_KEY`
+
 ## Instrucciones de instalación y ejecución
 
 Para instalar y ejecutar este proyecto exitosamente deberá:
 
 - Debe tener Node.js instalado en su equipo.
 - Instale las dependencias necesarias:
-
-- Instale Express
-
 ```bash
-  npm i express
+  npm i
 ```
-- Instale nodemon
 
-```bash
-  npm install --save-dev nodemon
-```
-- Instale dotenv
-
-```bash
-  npm i dotenv
-```
-- Instale Mongoose
-
-```bash
-  npm i mongoose
-```
 - Ejecute la aplicación web
 
 ```bash
   npm run dev
 ```
+
+- Pruebe la aplicación en postman
+
 - Si desea finalizar la ejecución oprima los botones Ctrl + C
 ## Estado del proyecto
 

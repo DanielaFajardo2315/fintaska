@@ -2,29 +2,33 @@
 import { boardsModel } from "../models/boards.model.js";
 
 
-//. Metodo CREAR un producto - POST
+//. Metodo CREAR un tablero - POST
 export const postBoard = async (request, response) => {
     try {
         // Validación de que si exista el archivo enviado
-        if(!request.file){
-            return response.status(400).json({
-                "message": "You need upload an image"
+        if (request.file) {
+            const newImage = {
+                ...request.body,
+                urlImage: `/images/${request.file.filename}`,
+                urlFile: `/files/${request.file.filename}`
+            }
+            await boardsModel.create(newImage);
+            return response.status(201).json({
+                "mensaje": "Nota creada correctamente"
+            });
+
+        } else {
+            await boardsModel.create(request.body);
+
+            return response.status(201).json({
+                "mensaje": "Nota creado exitosamente",
             });
         }
-        // Organizo primero el producto que se va a crear
-        const newProduct = {
-            ...request.body,
-            image: `/uploads/images/${request.file.filename}`
-        }
 
-        await productModel.create(newProduct);
-        return response.status(201).json({
-            "message": "Product created correctly"
-        });
 
     } catch (error) {
         return response.status(400).json({
-            "mensaje": "ocurrio un error al crear el Tablero",
+            "mensaje": "Ocurrio un error al crear el Tablero",
             "error": error.message || error
 
         });
@@ -54,7 +58,7 @@ export const getBoardByTag = async (request, response) => {
     try {
         const tagForBoard = request.params.tag;
         const boardTag = await boardsModel.find({ tag: { $in: [tagForBoard] } });
-           if (boardTag.length === 0) {
+        if (boardTag.length === 0) {
             return response.status(404).json({
                 "mensaje": "No se encontraron tableros con esa etiqueta"
             });
@@ -75,45 +79,45 @@ export const getBoardByTag = async (request, response) => {
 
 }
 
-    //3. Metodo Actualizar Tablero - PUT
-    export const putBoardById = async (request, response) => {
+//3. Metodo Actualizar Tablero - PUT
+export const putBoardById = async (request, response) => {
 
-        try {
-            const idForUpdate = request.params.id;
-            const dataForUpdate = request.body;
+    try {
+        const idForUpdate = request.params.id;
+        const dataForUpdate = request.body;
 
-            await boardsModel.findByIdAndUpdate(idForUpdate, dataForUpdate);
-            return response.status(200).json({
-                "mensaje": "Tablero Actualizado exitosamente"
-            });
+        await boardsModel.findByIdAndUpdate(idForUpdate, dataForUpdate);
+        return response.status(200).json({
+            "mensaje": "Tablero Actualizado exitosamente"
+        });
 
-        } catch (error) {
-            return response.status(500).json({
-                "mensaje": "Ocurrio un error al actualizar el tablero",
-                "error": error.message || error
-            });
+    } catch (error) {
+        return response.status(500).json({
+            "mensaje": "Ocurrio un error al actualizar el tablero",
+            "error": error.message || error
+        });
 
-        }
     }
+}
 
 
-    //4. Método para ELIMINAR -> DELETE
-    export const deleteBoardById = async (request, response) => {
+//4. Método para ELIMINAR -> DELETE
+export const deleteBoardById = async (request, response) => {
 
-        try {
-            const idForDelete = request.params.id;
-            await boardsModel.findByIdAndDelete(idForDelete);
+    try {
+        const idForDelete = request.params.id;
+        await boardsModel.findByIdAndDelete(idForDelete);
 
-            return response.status(200).json({
-                "mensaje": "Tablero eliminado exitosamente",
-            })
+        return response.status(200).json({
+            "mensaje": "Tablero eliminado exitosamente",
+        })
 
-        } catch (error) {
-            return response.status(500).json({
-                "mensaje": "Ocurrio un error al eliminar tablero",
-                "error": error.message || error
-            });
+    } catch (error) {
+        return response.status(500).json({
+            "mensaje": "Ocurrio un error al eliminar tablero",
+            "error": error.message || error
+        });
 
 
-        }
     }
+}
