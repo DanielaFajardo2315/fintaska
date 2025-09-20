@@ -1,4 +1,4 @@
-import { verifyToken } from "../config/jwt";
+import { verifyToken } from "../config/jwt.js";
 export const auth = (requiredRol) => {
     return async (request, response, next) => {
         const token = request.headers["authorization"];
