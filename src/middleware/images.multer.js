@@ -8,17 +8,17 @@ const _filename = fileURLToPath(import.meta.url);
 const _dirname = path.dirname(_filename);
 
 // 1. Crear una carpeta donde se guarden los archivos subidos
-const UPLOADS_FOLDER = path.join(_dirname, "../uploads/images");
+const IMAGES_FOLDER = path.join(_dirname, "../uploads/profile");
 
 // Si no existe la carpeta UPLOADS
-if (!fs.existsSync(UPLOADS_FOLDER)) {
-    fs.mkdirSync(UPLOADS_FOLDER, { recursive: true })
+if (!fs.existsSync(IMAGES_FOLDER)) {
+    fs.mkdirSync(IMAGES_FOLDER, { recursive: true })
 }
 
 // 2. Especificar cómo vamos a guardar los archivos
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, UPLOADS_FOLDER);
+        cb(null, IMAGES_FOLDER);
     },
     filename: (req, file, cb) => {
         const ext = path.extname(file.originalname);

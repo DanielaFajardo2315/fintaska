@@ -1,24 +1,32 @@
 import multer from "multer";
-import path from "path"; 
-import fs from "fs"; 
-import { fileURLToPath } from "url"; 
+import path from "path";
+import fs from "fs";
+import { fileURLToPath } from "url";
 
 // Desarrollo de las funcionalidades
 const _filename = fileURLToPath(import.meta.url);
-const _dirname = path.dirname(_filename); 
+const _dirname = path.dirname(_filename);
 
 // 1. Crear una carpeta donde se guarden los archivos subidos
-const UPLOADS_FOLDER = path.join(_dirname, "../uploads/files");
+const FILES_FOLDER = path.join(_dirname, "../uploads/files");
+const IMAGES_FOLDER = path.join(_dirname, "../uploads/images");
 
 // Si no existe la carpeta UPLOADS
-if (!fs.existsSync(UPLOADS_FOLDER)) {
-    fs.mkdirSync(UPLOADS_FOLDER, { recursive: true })
-}
+
+[FILES_FOLDER, IMAGES_FOLDER].forEach((folder) => {
+    if (!fs.existsSync(folder)) {
+        fs.mkdirSync(folder, { recursive: true })
+    }
+})
 
 // 2. Especificar cómo vamos a guardar los archivos
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, UPLOADS_FOLDER);
+        if (file.mimetype.startsWith("image/")) {
+            cb(null, IMAGES_FOLDER);
+        } else {
+            cb(null, FILES_FOLDER);
+        }
     },
     filename: (req, file, cb) => {
         const ext = path.extname(file.originalname); //extensión → .jpg .pdf, etc
@@ -30,7 +38,7 @@ const storage = multer.diskStorage({
 
 // 3. Qué tipo de archivos vamos a recibir
 const fileFilter = (req, file, cb) => {
-    const allowed = [
+    const allowedDocs = [
         "application/pdf",
         "application/msword",
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
@@ -40,7 +48,16 @@ const fileFilter = (req, file, cb) => {
         "application/vnd.openxmlformats-officedocument.presentationml.presentation",
         "text/plain",
         "text/csv"];
-    if(allowed.includes(file.mimetype)){
+    const allowedImages = ["image/jpeg",
+        "image/jpg",
+        "image/png",
+        "image/gif",
+        "image/webp",
+        "image/svg+xml",
+        "image/bmp",
+        "image/tiff"];
+
+    if (allowedDocs.includes(file.mimetype) || allowedImages.includes(file.mimetype)) {
         cb(null, true); //Si el archivo es permitido que lo guarde en la carpeta UPLOADS_FOLDER
     } else {
         cb(new Error("Archivo no permitido. Solo se permiten documentos (PDF, Word, Excel, PowerPoint, TXT, CSV)"), false); //No puede guardar el archivo
@@ -50,8 +67,8 @@ const fileFilter = (req, file, cb) => {
 // 4. Definir límites - tamaño de archivo
 // Ej: 5MB o docs en 20MB
 const limits = {
-    fileSize: 20*1024*1024 //20MB
+    fileSize: 20 * 1024 * 1024 //20MB
 }
 
 // 5. Exportar esas características
-export const uploadByDocument = multer({storage, fileFilter, limits});
+export const uploads = multer({ storage, fileFilter, limits });

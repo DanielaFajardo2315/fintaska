@@ -6,10 +6,10 @@ import { userModel } from "../models/users.model.js";
 // CREAR Movimiento Financiero - POST
 export const createFinanceEntry = async (request, response) =>{
     try {
-        const { type, amount, paymentMethod, category, description, date, status, user } = request.body;
+        const { type, amount, paymentMethod, category, description, date, status, user, scheduleAt } = request.body;
 
         const financialMove = await financeModel.create({
-            type, amount, paymentMethod, category, description, date, status, user}
+            type, amount, paymentMethod, category, description, date, status, user, scheduleAt}
         );
         
         return response.status(201).json({

@@ -6,7 +6,7 @@ import { tasksModel } from "../models/tasks.model.js";
 //. Metodo CREAR un tablero - POST
 export const postTasks = async (request, response) => {
     try {
-        const { title, description, estatus, category, priority, creationDate } = request.body;
+        const { title, description, estatus, category, priority, creationDate, scheduleAt } = request.body;
 
         await tasksModel.create({
             title,
@@ -14,7 +14,8 @@ export const postTasks = async (request, response) => {
             estatus,
             category,
             priority,
-            creationDate
+            creationDate,
+            scheduleAt
         });
 
         return response.status(201).json({

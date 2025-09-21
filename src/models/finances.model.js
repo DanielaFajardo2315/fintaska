@@ -22,6 +22,9 @@ const financeSchema = new mongoose.Schema({
     description: { 
         type: String 
     },
+    scheduleAt:{
+        type: Date
+    },
     date: { 
         type: Date, 
         default: Date.now 
