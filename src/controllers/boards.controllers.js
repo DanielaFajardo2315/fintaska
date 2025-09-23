@@ -79,12 +79,43 @@ export const putBoardById = async (request, response) => {
 
     try {
         const idForUpdate = request.params.id;
-        const dataForUpdate = request.body;
+        // const dataForUpdate = request.body;
 
-        await boardsModel.findByIdAndUpdate(idForUpdate, dataForUpdate);
-        return response.status(200).json({
-            "mensaje": "Tablero Actualizado exitosamente"
+        // await boardsModel.findByIdAndUpdate(idForUpdate, dataForUpdate);
+        // return response.status(200).json({
+        //     "mensaje": "Tablero Actualizado exitosamente"
+        // });
+        const updateBoard = await boardsModel.findById(idForUpdate);   // aquí se guarda todo el body tal cual viene
+        const updateData = request.body;
+        const files = request.files;     // aquí se guardan los archivos subidos
+
+        if (files && files['urlImage']) {
+            // updateBoard.urlImage = `/images/${files['urlImage'][0].filename}`;
+            files['urlImage'].forEach(file => {
+            updateBoard.urlImage.push(`/images/${file.filename}`);
         });
+        }
+
+        if (files && files['urlFile']) {
+            // updateBoard.urlFile = `/files/${files['urlFile'][0].filename}`;
+            files['urlFile'].forEach(file => {
+            updateBoard.urlFile.push(`/files/${file.filename}`);
+        });
+        }
+
+        // await boardsModel.findByIdAndUpdate(idForUpdate, updateBoard);
+
+        const board = await boardsModel.findByIdAndUpdate(
+        idForUpdate,
+        {
+            ...updateData,
+            urlImage: updateBoard.urlImage,
+            urlFile: updateBoard.urlFile
+        },
+        { new: true } // Esto devuelve el documento actualizado
+    );
+
+        return response.status(201).json({ mensaje: "Nota actualizada correctamente" });
 
     } catch (error) {
         return response.status(500).json({

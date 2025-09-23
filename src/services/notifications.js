@@ -35,9 +35,35 @@ export const scheduleNotifications = async (request, response) => {
                 "mensaje": "No hay tareas pendientes para el día de hoy"
             })
         }
+        // Creación de notificaciones según tareas pendientes
+        for(const task of pendingTasks) {
+            const exist = await notificationModel.findOne({
+                type: "tarea",
+                mesage: task.title
+            });
+            if (!exist) {
+                await notificationModel.create({
+                    mesage: task.title,
+                    type: "tarea"
+                });
+            }
+        }
+        // Creación de notificaciones según finanzas pendientes
+        pendingFinances.forEach(async finances => {
+            const exist = await notificationModel.findOne({
+                type: "finanza",
+                mesage: finances.description
+            });
+            if (!exist) {
+                await notificationModel.create({
+                    mesage: finances.description,
+                    type: "finanza"
+                });
+            }
+        });
         return response.status(200).json({
             "mensaje": "Estas son tus notificaciones"
-        })
+        });
     } catch (error) {
         return response.status(500).json({
             "mensaje": "Ocurrió un error al crear notificaciones",

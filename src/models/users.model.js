@@ -1,6 +1,9 @@
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
+  profile: {
+    type: String
+  },
   fullName: {
     type: String,
     required: true

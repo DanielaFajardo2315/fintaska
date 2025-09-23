@@ -6,12 +6,12 @@ const boardSchema = new mongoose.Schema({
         required: true
     },
     tag: [{ type: String }],//REVISAR
-    urlFile: {
+    urlFile: [{
         type: String
-    }, // si suben documento
-    urlImage: {
+    }], // si suben documento
+    urlImage: [{
         type: String
-    }, // si suben imagen
+    }], // si suben imagen
     description: {
         type: String
     },

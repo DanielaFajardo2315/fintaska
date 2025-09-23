@@ -51,4 +51,4 @@ const limits = {
 }
 
 // 5. Exportar esas características
-export const uploadByImage = multer({ storage, fileFilter, limits });
+export const uploadProfile = multer({ storage, fileFilter, limits });

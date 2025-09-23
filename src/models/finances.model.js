@@ -20,7 +20,8 @@ const financeSchema = new mongoose.Schema({
         default: "otros"
     },// categoria del monto
     description: { 
-        type: String 
+        type: String,
+        required: true
     },
     scheduleAt:{
         type: Date

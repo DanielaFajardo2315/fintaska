@@ -4,20 +4,33 @@ import bcryptjs from "bcryptjs";
 // Método POST
 export const postUser = async (request, response) => {
     try {
-        const { fullName, username, email, password, rol } = request.body;
+        // const { profile, fullName, username, email, password, rol } = request.body;
+        // const codedPassword = await bcryptjs.hash(password, 10);
+        // await userModel.create({
+        //     profile,
+        //     fullName,
+        //     username,
+        //     email,
+        //     password: codedPassword,
+        //     rol
+        // });
+        
+        // return response.status(201).json({
+        //     "message": "User created correctly"
+        // });
+        const { password } = request.body;
         const codedPassword = await bcryptjs.hash(password, 10);
-        await userModel.create({
-            fullName,
-            username,
-            email,
-            password: codedPassword,
-            rol
-        });
-
+        const newUser = {
+            ...request.body,
+            profile: `/uploads/profile/${request.file.filename}`,
+            password: codedPassword
+        }
+        
+        await userModel.create(newUser);
         return response.status(201).json({
             "message": "User created correctly"
         });
-
+        
     } catch (error) {
         return response.status(400).json({
             "message": "An error occurred while creating the product.",
@@ -69,27 +82,21 @@ export const getUserById = async (request, response) => {
 export const putUserById = async (request, response) => {
     try {
         const idForUpdate = request.params.id;
-        const { fullName, username, email, password, rol, settings, planner } = request.body;
-
-        const updateData = {
-            fullName,
-            username,
-            email,
-            rol,
-            settings,
-            planner
-        };
-
-        if (password) {
+        const updateUser = {...request.body};
+        console.log("Actualizado antes de condicionales", updateUser);
+        if (request.file) {
+            updateUser.profile = `/uploads/profile/${request.file.filename}`
+        }
+        if (updateUser.password) {
+            const { password } = request.body;
             const codedPassword = await bcryptjs.hash(password, 10);
-
-            updateData.password = codedPassword;
+            updateUser.password = codedPassword;
         }
 
-        await userModel.findByIdAndUpdate(idForUpdate, updateData);
-
-        return response.status(200).json({
-            "message": "User successfully updated"
+        console.log("Actualizado despues de condicionales", updateUser);
+        await userModel.findByIdAndUpdate(idForUpdate, updateUser);
+        return response.status(201).json({
+            "message": "User updated correctly"
         });
 
     } catch (error) {
