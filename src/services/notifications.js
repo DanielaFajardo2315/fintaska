@@ -19,7 +19,8 @@ export const scheduleNotifications = async (request, response) => {
                 $lte: endOfDay //<= fechas que sean menor o igual a ese día
             }
         });
-        console.log(pendingTasks);
+        console.log("Tarea pendiente:", pendingTasks);
+
         // VALIDACIÓN 2: Crear finanzas
         const pendingFinances = await financeModel.find({
             type: { $in: ["deuda", "ahorro"] }, //busca dentro del arreglo de datos si encuentra estos tipos
@@ -29,7 +30,8 @@ export const scheduleNotifications = async (request, response) => {
                 $lte: endOfDay //<= fechas que sean menor o igual a ese día
             }
         });
-        console.log(pendingFinances);
+        console.log("Finanza pendiente: ", pendingFinances);
+
         if (pendingTasks.length === 0 && pendingFinances.length === 0) {
             return response.status(404).json({
                 "mensaje": "No hay tareas pendientes para el día de hoy"
@@ -47,6 +49,9 @@ export const scheduleNotifications = async (request, response) => {
                     type: "tarea"
                 });
             }
+            if (task.scheduleAt != pendingTasks.scheduleAt) {
+                await notificationModel.deleteOne();
+            }
         }
         // Creación de notificaciones según finanzas pendientes
         pendingFinances.forEach(async finances => {
@@ -59,6 +64,9 @@ export const scheduleNotifications = async (request, response) => {
                     mesage: finances.description,
                     type: "finanza"
                 });
+            }
+            if (finances.scheduleAt != pendingFinances.scheduleAt) {
+                await notificationModel.deleteOne();
             }
         });
         return response.status(200).json({

@@ -22,7 +22,7 @@ export const postUser = async (request, response) => {
         const codedPassword = await bcryptjs.hash(password, 10);
         const newUser = {
             ...request.body,
-            profile: `/uploads/profile/${request.file.filename}`,
+            profile: `/profile/${request.file.filename}`,
             password: codedPassword
         }
         
@@ -85,7 +85,7 @@ export const putUserById = async (request, response) => {
         const updateUser = {...request.body};
         console.log("Actualizado antes de condicionales", updateUser);
         if (request.file) {
-            updateUser.profile = `/uploads/profile/${request.file.filename}`
+            updateUser.profile = `/profile/${request.file.filename}`
         }
         if (updateUser.password) {
             const { password } = request.body;

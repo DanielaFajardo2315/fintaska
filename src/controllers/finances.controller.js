@@ -1,7 +1,5 @@
 
 import { financeModel } from "../models/finances.model.js";
-import { tasksModel } from "../models/tasks.model.js";
-import { userModel } from "../models/users.model.js";
 
 // CREAR Movimiento Financiero - POST
 export const createFinanceEntry = async (request, response) =>{
@@ -24,46 +22,12 @@ export const createFinanceEntry = async (request, response) =>{
     }
 }
 
-/* //CREAR MOVIMIENTO - POST -AVANZADO + RECORDATORIO new y save
-export const createFinanceEntry = async (request, response) => {
-    try {
-        const { userId } = request.params;
-        const { type, amount, paymentMethod, category, description, date, status} = request.body;
 
-        const newFinanceEntry = new financeModel({
-            type,
-            amount,
-            paymentMethod,
-            category,
-            description,
-            date: date || new Date(),
-            status: status || 'completado',
-            user: userId
-        });
-
-        const saveFinanceEntry = await createFinanceEntry.save();
-        return res.status(201).json({
-            message: "Movimiento creado y recordatorio agregado al planner",
-            movimiento: saveFinanceEntry,
-            //recordatorio: tareaGuardada,
-        });
-
-    } catch (error) {
-        return response.status(400).json({
-            "mensaje": "Ocurrio un error al crear entreada en finanzas",
-            "error" : error.message || error
-        })
-    }    
-}
- */
-
-//------------------------
 //MOSTRAR TODOS los ingresos financieros Usuario - GET
-export const getFinancialMoveByUser = async (request, response) =>{
+export const getFinancial = async (request, response) =>{
     try {
-        const { userId } = request.params;
 
-        const financialMove = await financeModel.find({ user: userId }).sort({ fecha: -1 });
+        const financialMove = await financeModel.find().sort({ fecha: -1 });
 
         return response.status(200).json({
             message: ` ${financialMove.length} ingresos en finanzas encontrados `,
@@ -77,43 +41,6 @@ export const getFinancialMoveByUser = async (request, response) =>{
     }
 }
 
-/* // LISTAR MOVIMIENTOS FINANCIEROS CON FILTROS -AVANZADO- GET
-
-export const getFinancialMoveByUser =async(request,response) => {
-    try {
-        const { userId } = request.params;
-        const { type, category, status, dateSince, dateUntil, limit = 50 } = request.query;
-
-        let filter = { user: userId };
-        if (type) filter.tipo = tipo;
-        if (category) filter.category = category;
-        if (status) filter.status = status;
-        if (dateSince || dateUntil) {
-        filter.fecha = {};
-        if (fechaDesde) filtros.fecha.$gte = new Date(fechaDesde);
-        if (fechaHasta) filtros.fecha.$lte = new Date(fechaHasta);
-        }
-
-        const movimientos = await financeModelModel.find(filter)
-        .populate("user", "fullName email")
-        .sort({ fecha: -1 })
-        .limit(parseInt(limit));
-
-        res.json({
-            message: `${movimientos.length} movimientos encontrados`,
-            filtros,
-            movimientos,
-        });
-    } catch (error) {
-        return response.status(400).json({
-            "mensaje": "Ocurrio un error al mostrar tus entreadas en finanzas",
-            "error" : error.message || error
-        })        
-    }
-
-} */
-
-//---------------------------
 
 // ACTUALIZAR  un movimiento por id - PUT
 export const updateFinancialMove = async (request, response) => {
@@ -142,35 +69,6 @@ export const updateFinancialMove = async (request, response) => {
     }
 
 }
-
-
-/* // ACTUALIZAR MOVIMIENTO -PUT - AVANZADO con fecha actualizacion
-
-export const updateFinancialMove = async (req, res) => {
-  try {
-        const { id } = req.params;
-        const dataForUpdate = { ...req.body, dateUpdate: new Date() };
-
-        const financialMoveUpdated = await financeModel.findByIdAndUpdate(
-        id,
-        dataForUpdate,
-        { new: true }
-        );
-
-        if (!financialMoveUpdated) {
-        return res.status(404).json({ error: "Movimiento no encontrado" });
-        }
-
-        return res.status(200).json({
-        message: "Movimiento en finanzas actualizado",
-        movimiento: financialMoveUpdated,
-        });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-} */
-
-//----------------------------------------------
 
 // ELIMINAR MOVIMIENTO
 export const deleteFinancialMove = async (request, response) => {
