@@ -34,7 +34,7 @@ export const scheduleNotifications = async (request, response) => {
 
         if (pendingTasks.length === 0 && pendingFinances.length === 0) {
             return response.status(404).json({
-                "mensaje": "No hay tareas pendientes para el día de hoy"
+                "mensaje": "Sin notificaciones por ahora. ¡Buen trabajo! Añade tu próxima tarea o planifica tus ahorros o deudas para seguir en control."
             })
         }
         // Creación de notificaciones según tareas pendientes
@@ -70,7 +70,9 @@ export const scheduleNotifications = async (request, response) => {
             }
         });
         return response.status(200).json({
-            "mensaje": "Estas son tus notificaciones"
+            "mensaje": "Estas son tus notificaciones pendientes",
+            "tareas": pendingTasks.map(tarea=>tarea.title),
+            "finanzas": pendingFinances.map(finanza=>finanza.description)
         });
     } catch (error) {
         return response.status(500).json({

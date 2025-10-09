@@ -4,20 +4,6 @@ import bcryptjs from "bcryptjs";
 // Método POST
 export const postUser = async (request, response) => {
     try {
-        // const { profile, fullName, username, email, password, rol } = request.body;
-        // const codedPassword = await bcryptjs.hash(password, 10);
-        // await userModel.create({
-        //     profile,
-        //     fullName,
-        //     username,
-        //     email,
-        //     password: codedPassword,
-        //     rol
-        // });
-        
-        // return response.status(201).json({
-        //     "message": "User created correctly"
-        // });
         const { password } = request.body;
         const codedPassword = await bcryptjs.hash(password, 10);
         const newUser = {
@@ -28,12 +14,12 @@ export const postUser = async (request, response) => {
         
         await userModel.create(newUser);
         return response.status(201).json({
-            "message": "User created correctly"
+            "mensaje": "¡Genial! ahora puedes organizar tus finanzas y metas con calma y claridad en Finstaska"
         });
         
     } catch (error) {
         return response.status(400).json({
-            "message": "An error occurred while creating the product.",
+            "mensaje": "El registro no salió como esperabamos, verifica tus datos e inténtalo nuevamente",
             "error": error.message || error
         })
     }
@@ -44,13 +30,13 @@ export const getAllUsers = async (request, response) => {
     try {
         const allUsers = await userModel.find();
         return response.status(200).json({
-            "message": "Users found",
+            "mensaje": `Hemos encontrado ${allUsers.length} usuarios registrados en Fintaska`,
             "data": allUsers
         });
 
     } catch (error) {
         return response.status(500).json({
-            "message": "An error occurred while getting users.",
+            "mensaje": "An error occurred while getting users.",
             "error": error.message || error
         })
     }

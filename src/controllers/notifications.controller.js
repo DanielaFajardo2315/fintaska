@@ -1,4 +1,5 @@
 import { notificationModel } from "../models/notifications.model.js";
+import { scheduleNotifications } from "../services/notifications.js";
 
 // Método POST
 export const postNotifications = async (request, response) => {
