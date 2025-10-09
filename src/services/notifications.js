@@ -34,40 +34,46 @@ export const scheduleNotifications = async (request, response) => {
 
         if (pendingTasks.length === 0 && pendingFinances.length === 0) {
             return response.status(404).json({
-                "mensaje": "Sin notificaciones por ahora. ¡Buen trabajo! Añade tu próxima tarea o planifica tus ahorros o deudas para seguir en control."
+                "mensaje": "Sin notificaciones por ahora. ¡Buen trabajo! Añade tu próxima tarea o planifica tus ahorros o deudas para seguir en control.",
+                "tareas": [],
+                "finanzas": []
             })
         }
         // Creación de notificaciones según tareas pendientes
         for(const task of pendingTasks) {
             const exist = await notificationModel.findOne({
                 type: "tarea",
-                mesage: task.title
+                mesage: task.title,
+                scheduleAt: { $gte: startOfDay, $lte: endOfDay }
             });
             if (!exist) {
                 await notificationModel.create({
                     mesage: task.title,
-                    type: "tarea"
+                    type: "tarea",
+                    scheduleAt: task.scheduleAt
                 });
             }
-            if (task.scheduleAt != pendingTasks.scheduleAt) {
-                await notificationModel.deleteOne();
-            }
+            // if (task.scheduleAt != pendingTasks.scheduleAt) {
+            //     await notificationModel.deleteOne();
+            // }
         }
         // Creación de notificaciones según finanzas pendientes
         pendingFinances.forEach(async finances => {
             const exist = await notificationModel.findOne({
                 type: "finanza",
-                mesage: finances.description
+                mesage: finances.description,
+                scheduleAt: { $gte: startOfDay, $lte: endOfDay }
             });
             if (!exist) {
                 await notificationModel.create({
                     mesage: finances.description,
-                    type: "finanza"
+                    type: "finanza",
+                    scheduleAt: finances.scheduleAt
                 });
             }
-            if (finances.scheduleAt != pendingFinances.scheduleAt) {
-                await notificationModel.deleteOne();
-            }
+            // if (finances.scheduleAt != pendingFinances.scheduleAt) {
+            //     await notificationModel.deleteOne();
+            // }
         });
         return response.status(200).json({
             "mensaje": "Estas son tus notificaciones pendientes",
