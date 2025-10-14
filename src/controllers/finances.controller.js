@@ -122,8 +122,11 @@ export const updateFinancialMove = async (request, response) => {
 
         const financialMove = await financeModel.findByIdAndUpdate(
         id,
-        { ...request.body, updateDate: new Date() },
-        { new: true }
+        request.body, 
+        {   
+            new: true,
+            runValidators: true
+         }
         );
 
         if (!financialMove) {
