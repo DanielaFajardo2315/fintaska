@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { type } from "os";
 
 const notificationSchema = new mongoose.Schema({
     mesage: { 
@@ -17,6 +18,10 @@ const notificationSchema = new mongoose.Schema({
     date: { 
         type: Date, 
         default: Date.now 
+    },
+    scheduleAt: {
+        type: Date,
+        required: true
     }
 });
 

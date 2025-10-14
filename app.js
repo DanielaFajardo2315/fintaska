@@ -31,6 +31,7 @@ app.use("/finances", financeRouter);
 app.use("/boards", boardRouter);
 app.use("/tasks", tasksRouter);
 app.use("/profile", express.static(path.join(_dirname, "src/uploads/profile")));
+app.use("/images", express.static(path.join(_dirname, "src/uploads/images")));
 app.use("/files", express.static(path.join(_dirname, "src/uploads/files")));
 app.use("/login", loginRouter);
 

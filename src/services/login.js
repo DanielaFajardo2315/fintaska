@@ -14,7 +14,7 @@ export const login = async (request, response) => {
 
         if (!userFound) {
             return response.status(404).json({
-                "mensaje": "Usuario no encontrado, por favor registrese"
+                "mensaje": "Ups!, no te hemos encontrado, registrate y se parte de Fintaska ahora mismo"
             });
         }
 
@@ -23,7 +23,7 @@ export const login = async (request, response) => {
 
         if (!validPassword) {
             return response.status(401).json({
-                "mensaje": "Contraseña incorrecta"
+                "mensaje": "Ups! contraseña incorrecta, ingresala nuevamente"
             });
         }
 
@@ -45,12 +45,12 @@ export const login = async (request, response) => {
         console.log("token", token);
 
         return response.status(200).json({
-            "mensaje": "Inicio de sesión exitoso",
+            "mensaje": `Hola ${userFound.username}, estamos felices de que estés nuevamente en Finstaska`,
             "token": token
         });
     } catch (error) {
         return response.status(401).json({
-            "mensaje": "Ha ocurrido un error al iniciar sesión",
+            "mensaje": "Algo no está está bien, por favor revisa tu información e intentalo nuevamente",
             "error" : error.message || error
         });
 

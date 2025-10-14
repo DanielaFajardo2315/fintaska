@@ -19,11 +19,11 @@ export const postBoard = async (request, response) => {
 
         await boardsModel.create(newBoard);
 
-        return response.status(201).json({ mensaje: "Nota creada correctamente" });
+        return response.status(201).json({ mensaje: "¡Perfecto! Tu nueva nota está lista para llenarse de ideas e inspiración." });
 
     } catch (error) {
         return response.status(400).json({
-            "mensaje": "Ocurrio un error al crear el Tablero",
+            "mensaje": "Ups! No se ha creado tu nota, intentalo nuevamente",
             "error": error.message || error
 
         });
@@ -41,7 +41,7 @@ export const getAllBoards = async (request, response) => {
 
     } catch (error) {
         return response.status(500).json({
-            "mensaje": "Ocurrio un error al mostrar el tablero",
+            "mensaje": "Ups! No se han podido mostrar tus notas, intentalo nuevamente",
             "error": error.message || error
         });
 
@@ -55,18 +55,18 @@ export const getBoardByTag = async (request, response) => {
         const boardTag = await boardsModel.find({ tag: { $in: [tagForBoard] } });
         if (boardTag.length === 0) {
             return response.status(404).json({
-                "mensaje": "No se encontraron tableros con esa etiqueta"
+                "mensaje": "No hemos encontrado notas con esa etiqueta, revisa la etiqueta que buscas"
             });
         }
 
         return response.status(200).json({
-            "mensaje": "Tableros mostrados exitosamente",
+            "mensaje": `Notas filtradas por ${tagForBoard}`,
             "data": boardTag
         });
 
     } catch (error) {
         return response.status(500).json({
-            "mensaje": "Ocurrio un error al mostrar el tablero",
+            "mensaje": "Ups! No se han podido mostrar tus notas, intentalo nuevamente",
             "error": error.message || error
         });
 
@@ -115,11 +115,11 @@ export const putBoardById = async (request, response) => {
         { new: true } // Esto devuelve el documento actualizado
     );
 
-        return response.status(201).json({ mensaje: "Nota actualizada correctamente" });
+        return response.status(201).json({ mensaje: "¡Hecho! Tu nota luce genial" });
 
     } catch (error) {
         return response.status(500).json({
-            "mensaje": "Ocurrio un error al actualizar el tablero",
+            "mensaje": "Ups! ocurrió un error al actualizar tu nota, intentalo nuevamente",
             "error": error.message || error
         });
 
@@ -135,12 +135,12 @@ export const deleteBoardById = async (request, response) => {
         await boardsModel.findByIdAndDelete(idForDelete);
 
         return response.status(200).json({
-            "mensaje": "Tablero eliminado exitosamente",
+            "mensaje": "¡Listo! Nota eliminada, ahora tienes espacio para una nueva idea",
         })
 
     } catch (error) {
         return response.status(500).json({
-            "mensaje": "Ocurrio un error al eliminar tablero",
+            "mensaje": "Ups! ocurrió un error al eliminar tu nota, intentalo nuevamente",
             "error": error.message || error
         });
 

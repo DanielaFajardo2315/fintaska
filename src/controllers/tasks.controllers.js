@@ -19,12 +19,12 @@ export const postTasks = async (request, response) => {
         });
 
         return response.status(201).json({
-            "mensaje": "Tarea creada exitosamente",
+            "mensaje": "Una nueva tarea se ha creado, continua planificando tus días",
         });
 
     } catch (error) {
         return response.status(400).json({
-            "mensaje": "ocurrio un error al crear esta Tarea",
+            "mensaje": "Parece que algo salió mal, no pudimos crear esta tarea",
             "error": error.message || error
 
         });
@@ -42,7 +42,7 @@ export const getAllTasks = async (request, response) => {
 
     } catch (error) {
         return response.status(500).json({
-            "mensaje": "Ocurrio un error al mostrar esta Tarea",
+            "mensaje": "Parece que algo salió mal, no pudimos mostrar tus tareas, intentalo en un momento",
             "error": error.message || error
         });
 
@@ -59,12 +59,12 @@ export const putTasksById = async (request, response) => {
 
         await tasksModel.findByIdAndUpdate(idForUpdate, dataForUpdate);
         return response.status(200).json({
-            "mensaje": "Tarea Actualizada exitosamente"
+            "mensaje": "¡Genial! Tarea actualizada y lista para conquistar el día"
         });
 
     } catch (error) {
         return response.status(500).json({
-            "mensaje": "Ocurrio un error al actualizar la tarea",
+            "mensaje": "Parece que algo salió mal, no pudimos actualizar esta tarea",
             "error": error.message || error
         });
 
@@ -80,12 +80,12 @@ export const deleteTasksById = async (request, response) => {
         await tasksModel.findByIdAndDelete(idForDelete);
 
         return response.status(200).json({
-            "mensaje": "Tarea eliminada exitosamente",
+            "mensaje": "Se eliminó esta tarea, puedes continuar planificando tu día",
         })
 
     } catch (error) {
         return response.status(500).json({
-            "mensaje": "Ocurrio un error al eliminar la Tarea",
+            "mensaje": "Parece que algo salió mal, no pudimos eliminar esta tarea",
             "error": error.message || error
         });
 
