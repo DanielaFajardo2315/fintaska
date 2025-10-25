@@ -15,7 +15,7 @@ export const postBoard = async (request, response) => {
 
         if (files && files['urlFile']) {
             newBoard.urlFile = `/files/${files['urlFile'][0].filename}`;
-        }
+        } 
 
         await boardsModel.create(newBoard);
 
