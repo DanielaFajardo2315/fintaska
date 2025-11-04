@@ -8,8 +8,12 @@ export const postUser = async (request, response) => {
         const codedPassword = await bcryptjs.hash(password, 10);
         const newUser = {
             ...request.body,
-            profile: `/profile/${request.file.filename}`,
+            // profile: `/profile/${request.file.filename}`,
             password: codedPassword
+        }
+
+        if (request.file) {
+            newUser.profile = `/profile/${request.file.filename}`;
         }
         
         await userModel.create(newUser);
