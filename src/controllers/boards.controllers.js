@@ -15,7 +15,7 @@ export const postBoard = async (request, response) => {
 
         if (files && files['urlFile']) {
             newBoard.urlFile = `/files/${files['urlFile'][0].filename}`;
-        } 
+        }
 
         await boardsModel.create(newBoard);
 
@@ -92,30 +92,33 @@ export const putBoardById = async (request, response) => {
         if (files && files['urlImage']) {
             // updateBoard.urlImage = `/images/${files['urlImage'][0].filename}`;
             files['urlImage'].forEach(file => {
-            updateBoard.urlImage.push(`/images/${file.filename}`);
-        });
+                updateBoard.urlImage.push(`/images/${file.filename}`);
+            });
         }
 
         if (files && files['urlFile']) {
             // updateBoard.urlFile = `/files/${files['urlFile'][0].filename}`;
             files['urlFile'].forEach(file => {
-            updateBoard.urlFile.push(`/files/${file.filename}`);
-        });
+                updateBoard.urlFile.push(`/files/${file.filename}`);
+            });
         }
 
         // await boardsModel.findByIdAndUpdate(idForUpdate, updateBoard);
 
         const board = await boardsModel.findByIdAndUpdate(
-        idForUpdate,
-        {
-            ...updateData,
-            urlImage: updateBoard.urlImage,
-            urlFile: updateBoard.urlFile
-        },
-        { new: true } // Esto devuelve el documento actualizado
-    );
+            idForUpdate,
+            {
+                ...updateData,
+                urlImage: updateBoard.urlImage,
+                urlFile: updateBoard.urlFile
+            },
+            { new : true }
+        );
 
-        return response.status(201).json({ mensaje: "¡Hecho! Tu nota luce genial" });
+        return response.status(201).json({
+            "mensaje": "¡Hecho! Tu nota luce genial",
+            "data": board
+        });
 
     } catch (error) {
         return response.status(500).json({

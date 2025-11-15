@@ -86,12 +86,12 @@ export const putUserById = async (request, response) => {
         console.log("Actualizado despues de condicionales", updateUser);
         await userModel.findByIdAndUpdate(idForUpdate, updateUser);
         return response.status(201).json({
-            "message": "User updated correctly"
+            "message": "Tu usuario ha sido actualizado, sigue con el control de tus actividades"
         });
 
     } catch (error) {
         return response.status(400).json({
-            "message": "An error occurred while updating the user.",
+            "message": "Ups! Ocurrió un error al actualizar tu usuario, vuelve a intentarlo",
             "error": error.message || error
         })
     }

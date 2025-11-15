@@ -8,7 +8,7 @@ export const postTasks = async (request, response) => {
     try {
         const { title, description, estatus, category, priority, creationDate, scheduleAt } = request.body;
 
-        await tasksModel.create({
+        const newTask = await tasksModel.create({
             title,
             description,
             estatus,
@@ -20,6 +20,7 @@ export const postTasks = async (request, response) => {
 
         return response.status(201).json({
             "mensaje": "Una nueva tarea se ha creado, continua planificando tus días",
+            "data": newTask
         });
 
     } catch (error) {
