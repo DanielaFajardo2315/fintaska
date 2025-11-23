@@ -15,3 +15,6 @@ financeRouter.put("/:id", updateFinancialMove);
 
 // Eliminar movimiento
 financeRouter.delete("/:id", deleteFinancialMove);
+
+// REsumen de finanzas
+// financeRouter.get('/summary', getFinancialSummary);
