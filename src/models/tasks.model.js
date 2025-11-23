@@ -18,7 +18,7 @@ const taskSchema = new mongoose.Schema({
     {
         type: String,
         enum: ["pendiente", "en progreso", "realizada"],
-        default: "pendiente"
+        // default: "pendiente"
     },
     //Categoria
     category: {
