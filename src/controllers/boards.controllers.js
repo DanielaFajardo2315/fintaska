@@ -17,15 +17,17 @@ export const postBoard = async (request, response) => {
             newBoard.urlFile = `/files/${files['urlFile'][0].filename}`;
         }
 
-        await boardsModel.create(newBoard);
+        const boardData = await boardsModel.create(newBoard);
 
-        return response.status(201).json({ mensaje: "¡Perfecto! Tu nueva nota está lista para llenarse de ideas e inspiración." });
+        return response.status(201).json({
+            "mensaje": "¡Perfecto! Tu nueva nota está lista para llenarse de ideas e inspiración.",
+            "data": boardData
+        });
 
     } catch (error) {
         return response.status(400).json({
             "mensaje": "Ups! No se ha creado tu nota, intentalo nuevamente",
             "error": error.message || error
-
         });
     }
 }
@@ -112,7 +114,7 @@ export const putBoardById = async (request, response) => {
                 urlImage: updateBoard.urlImage,
                 urlFile: updateBoard.urlFile
             },
-            { new : true }
+            { new: true }
         );
 
         return response.status(201).json({
