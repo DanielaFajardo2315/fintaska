@@ -32,7 +32,7 @@ const userSchema = new mongoose.Schema({
   settings: {
     theme: {
       type: String,
-      default: "light"
+      default: "claro"
     },
     notifications: {
       type: Boolean,
