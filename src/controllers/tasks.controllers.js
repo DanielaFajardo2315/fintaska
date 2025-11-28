@@ -7,7 +7,15 @@ import { tasksModel } from "../models/tasks.model.js";
 export const postTasks = async (request, response) => {
     try {
         const { title, description, estatus, category, priority, creationDate, scheduleAt } = request.body;
-
+        console.log('Fecha recibida del front: ', scheduleAt);
+        let adjustedScheduleAt = scheduleAt;
+        if (scheduleAt) {
+            const date = new Date(scheduleAt);
+            // Ajustar agregando el offset de Colombia (5 horas)
+            adjustedScheduleAt = new Date(date.getTime() + (5 * 60 * 60 * 1000));
+        }
+        
+        console.log('Fecha ajustada: ', adjustedScheduleAt);
         const newTask = await tasksModel.create({
             title,
             description,
@@ -15,7 +23,7 @@ export const postTasks = async (request, response) => {
             category,
             priority,
             creationDate,
-            scheduleAt
+            scheduleAt: adjustedScheduleAt
         });
 
         return response.status(201).json({

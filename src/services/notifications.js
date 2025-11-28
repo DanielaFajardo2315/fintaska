@@ -4,12 +4,20 @@ import { notificationModel } from "../models/notifications.model.js";
 
 export const scheduleNotifications = async (request, response) => {
     const currentDate = new Date();
-    const startOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 0, 0, 0, 0);
-    const endOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 23, 59, 59, 999);
+    const startOfDay = new Date(
+        currentDate.getFullYear(), 
+        currentDate.getMonth(), 
+        currentDate.getDate(), 
+        );
+    const endOfDay = new Date(
+        currentDate.getFullYear(), 
+        currentDate.getMonth(), 
+        currentDate.getDate(), 
+        23, 59, 59);
 
-    console.log("Fecha actual: ", currentDate);
-    console.log("Fecha inicio: ", startOfDay);
-    console.log("Fecha final: ", endOfDay);
+    console.log("Fecha actual: ", currentDate.toLocaleString('es-CO'));
+    console.log("Fecha inicio: ", startOfDay.toLocaleString('es-CO'));
+    console.log("Fecha final: ", endOfDay.toLocaleString('es-CO'));
     try {
         // VALIDACIÓN 1: Crear tareas
         const pendingTasks = await tasksModel.find({
@@ -40,7 +48,7 @@ export const scheduleNotifications = async (request, response) => {
             })
         }
         // Creación de notificaciones según tareas pendientes
-        for(const task of pendingTasks) {
+        for (const task of pendingTasks) {
             const exist = await notificationModel.findOne({
                 type: "tarea",
                 mesage: task.title,
@@ -77,8 +85,8 @@ export const scheduleNotifications = async (request, response) => {
         });
         return response.status(200).json({
             "mensaje": "Estas son tus notificaciones pendientes",
-            "tareas": pendingTasks.map(tarea=>tarea.title),
-            "finanzas": pendingFinances.map(finanza=>finanza.description)
+            "tareas": pendingTasks.map(tarea => tarea.title),
+            "finanzas": pendingFinances.map(finanza => finanza.description)
         });
     } catch (error) {
         return response.status(500).json({

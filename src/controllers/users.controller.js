@@ -73,7 +73,7 @@ export const putUserById = async (request, response) => {
     try {
         const idForUpdate = request.params.id;
         const updateUser = { ...request.body };
-        console.log("Actualizado antes de condicionales", updateUser);
+        // console.log("Actualizado antes de condicionales", updateUser);
         if (request.file) {
             updateUser.profile = `/profile/${request.file.filename}`
         }
@@ -83,7 +83,7 @@ export const putUserById = async (request, response) => {
             updateUser.password = codedPassword;
         }
 
-        console.log("Actualizado despues de condicionales", updateUser);
+        // console.log("Actualizado despues de condicionales", updateUser);
         await userModel.findByIdAndUpdate(idForUpdate, updateUser);
         return response.status(201).json({
             "message": "Tu usuario ha sido actualizado, sigue con el control de tus actividades"
@@ -155,7 +155,7 @@ export const deleteUserById = async (request, response) => {
         await userModel.findByIdAndDelete(idForDelete);
 
         return response.status(200).json({
-            "message": "User successfully deleted"
+            "message": "El usuario ha sido eliminado exitosamente."
         });
 
     } catch (error) {
