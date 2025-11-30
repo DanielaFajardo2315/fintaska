@@ -36,10 +36,10 @@ app.use("/files", express.static(path.join(_dirname, "src/uploads/files")));
 app.use("/login", loginRouter);
 
 // Servir el frontend
-app.use(express.static(path.join(_dirname, "dist", "frontend", "browser")));
+app.use(express.static(path.join(_dirname, "dist", "fintaska_front", "browser")));
 
 app.get(/.*/, (req, res) => {
-  res.sendFile(path.join(_dirname, "dist", "frontend", "browser", "index.html"));
+  res.sendFile(path.join(_dirname, "dist", "fintaska_front", "browser", "index.html"));
 });
 
 
