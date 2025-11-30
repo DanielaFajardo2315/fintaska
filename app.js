@@ -19,9 +19,9 @@ conectMongo(); //Conexión con DB
 const _filename = fileURLToPath(import.meta.url);
 const _dirname = path.dirname(_filename);
 
-app.get("/", (req, res) => {
-  res.send("Server works")
-});
+// app.get("/", (req, res) => {
+//   res.send("Server works")
+// });
 
 app.use(cors());
 app.use(express.json());
@@ -34,6 +34,13 @@ app.use("/profile", express.static(path.join(_dirname, "src/uploads/profile")));
 app.use("/images", express.static(path.join(_dirname, "src/uploads/images")));
 app.use("/files", express.static(path.join(_dirname, "src/uploads/files")));
 app.use("/login", loginRouter);
+
+// Servir el frontend
+app.use(express.static(path.join(_dirname, "dist", "frontend", "browser")));
+
+app.get(/.*/, (req, res) => {
+  res.sendFile(path.join(_dirname, "dist", "frontend", "browser", "index.html"));
+});
 
 
 app.listen(port, () => {
